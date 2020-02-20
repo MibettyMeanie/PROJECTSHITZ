@@ -3,6 +3,7 @@ import numpy as np
 import math
 
 
+
 def distance(a,b):
     if len(a)!=(len(b)):
         print ("a and b are not equal size")
@@ -10,6 +11,46 @@ def distance(a,b):
     for i in range(len(a)):
         total+=(a[i][0]-b[i][0])**2+(a[i][1]-b[i][1])**2
     return math.sqrt(total)
+
+def unique(arr):
+    arr=sorted(arr)
+    #print arr
+    xaxis=[i for (i,j) in arr]
+    result=cluster(xaxis)
+    #print result
+    mapx = {}
+    for (i,j) in arr:
+        mapx[i] = j
+    mapy={}
+    for (i,j) in arr:
+        mapy[j]=i
+    for i in range(0,len(result)):
+        for j in range(0,len(result[i])):
+            result[i][j]=mapx[result[i][j]]
+    minimum=[]
+    for i in result:
+        minimum.append(min(i))
+    #print minimum
+    ret=[]
+    for i in minimum:
+        ret.append((mapy[i],i))
+    return ret
+
+def cluster(xaxis):
+    #print xaxis
+    result=[]
+    temp=[]
+    temp.append(xaxis[0])
+    d=50
+    for i in range(1,len(xaxis)):
+        if xaxis[i]-xaxis[i-1] < d:
+            temp.append(xaxis[i])
+        else:
+            result.append(temp)
+            temp=[]
+            temp.append(xaxis[i])
+    result.append(temp)
+    return result
 
 
 img = cv2.imread("lala.jpg")
@@ -76,10 +117,41 @@ for i,j in z:
 	valleys.append(j)
 print(valleys)
 
-for i in range(5):
-	for j in range(1):
-		print(valleys[i][j])
-		cv2.circle(drawing,(valleys[i][j],valleys[i][j+1]),7,(255,255,0),-1)
+for (i,j) in valleys:
+        cv2.circle(drawing,(i,j),7,[255,255,0],-1)
+
+
+arr=[]
+
+for (i,j) in valleys:
+    arr.append(j)
+
+average=sum(arr)/len(arr)
+
+corners=[]
+tips=[]
+for i in hull:
+    #print cnt[i[0]][0][0]
+    corners.append((cnt[i[0]][0][0],cnt[i[0]][0][1]))
+for (i,j) in corners:
+    if j < average:
+        tips.append((i,j))
+arr=[j for (i,j) in tips]
+average2=sum(arr)/len(arr)
+average=(average+average2)/2
+tips=[]
+for (i,j) in corners:
+    if j < average:
+        tips.append((i,j))
+corners=sorted(corners)
+tips.append(corners[0])
+tips=sorted(tips)
+tips=unique(tips)
+
+for (i,j) in tips:
+    cv2.circle(drawing,(i,j),7,[0,255,255],-1)
+
+
 cv2.imshow('FUCK YEAH',drawing)
 cv2.waitKey(0)
 
