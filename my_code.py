@@ -76,7 +76,7 @@ for i,j in z:
 	valleys.append(j)
 print(valleys)
 
-for i in range(4):
+for i in range(5):
 	for j in range(1):
 		print(valleys[i][j])
 		cv2.circle(drawing,(valleys[i][j],valleys[i][j+1]),7,(255,255,0),-1)
