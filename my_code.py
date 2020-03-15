@@ -264,6 +264,9 @@ def midfinger(img):
     except:
         print ("all knuckles not detected")
 
+    fore_finger=dist[1]
+    dist=[i/fore_finger for i in dist]
+
     # FINAL FUCK YEAH
     # cv2.imshow('FUCK YEAH',drawing)
     # cv2.waitKey(0)
