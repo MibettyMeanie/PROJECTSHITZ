@@ -1,2 +1,4 @@
 # PROJECTSHITZ
 HAND GEOMETRY
+
+run gui.py file
