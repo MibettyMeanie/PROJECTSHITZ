@@ -79,6 +79,8 @@ def checker():
 	print(la)
 	# for i in temp:
 	# 	print (naming[i]," ",)
+	if d>0:
+		return("not Found")
 	print (naming[la-1]," ",)
 	return str(naming[la-1])
 
